@@ -1,10 +1,10 @@
-import { RESTDataSource } from "apollo-datasource-rest";
+const { RESTDataSource } = require("apollo-datasource-rest");
 
 class LaunchAPI extends RESTDataSource {
   constructor() {
     /* constructor: class내에서 객체를 생성하고 초기화하기 위한 특별한 메서드 */
     super(); /* super: 부모 생성자(여기서는 constructor) 호출 */
-    this.baseURL = `https://api.spacexdata.com/v2/`;
+    this.baseURL = "https://api.spacexdata.com/v2/";
     /* LaunchAPI는 RESTDataSource의 속성을 가지는데 
     constuctor로 RESTDataSource의 속성을 초기화시키고
     super()로 초기화한 LaunchAPI(RESTDataSource속성을 지닌)을 부르고
@@ -20,7 +20,7 @@ class LaunchAPI extends RESTDataSource {
       mission: {
         name: launch.mission_name,
         missionPatchSmall: launch.links.mission_patch_small,
-        missionPatchLarge: this.launchReducer.links.mission_patch
+        missionPatchLarge: launch.links.mission_patch
       },
       rocket: {
         id: launch.rocket.rocket_id,
@@ -37,7 +37,7 @@ class LaunchAPI extends RESTDataSource {
       : [];
   }
 
-  async getLaunchByID() {
+  async getLaunchById({ launchId }) {
     const response = await this.get("launches", { flight_number: launchId });
     return this.launchReducer(response[0]);
     /* launchId를 받으면 response라는 배열 0번째부터 반환하라는 의미
@@ -46,7 +46,7 @@ class LaunchAPI extends RESTDataSource {
 
   getLaunchesByIds({ launchIds }) {
     return Promise.all(
-      launchIds.map(launchId => this.getLaunchByID({ launchId }))
+      launchIds.map(launchId => this.getLaunchById({ launchId }))
     );
     /* 
     promise all: 배열 내 모든 값을 이행하라는 의미임. 즉 getLaunchByID으로 launchId가 배열로 정리되었으면
@@ -57,4 +57,4 @@ class LaunchAPI extends RESTDataSource {
   }
 }
 
-export default LaunchAPI;
+module.exports = LaunchAPI;

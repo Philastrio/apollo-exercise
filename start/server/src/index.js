@@ -1,6 +1,7 @@
-import { ApolloServer } from "apollo-server";
-import { typeDefs } from "./schema";
-import { createStore } from "./utils";
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./schema");
+const { createStore } = require("./utils");
+const resolvers = require("./resolvers");
 
 const LaunchAPI = require("./datasources/launch");
 const UserAPI = require("./datasources/user");
@@ -9,9 +10,10 @@ const store = createStore();
 
 const server = new ApolloServer({
   typeDefs,
+  resolvers,
   dataSources: () => ({
     launchAPI: new LaunchAPI(),
-    userAPI: new UserAPI()
+    userAPI: new UserAPI({ store })
   })
 });
 

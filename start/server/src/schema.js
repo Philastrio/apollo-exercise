@@ -1,10 +1,19 @@
-import { gql } from "apollo-server";
+const { gql } = require("apollo-server");
 
-export const typeDefs = gql`
+const typeDefs = gql`
   type Query {
-    launches: [Launch]!
+    launches(pageSize: Int, after: String): LaunchConnection!
+    """
+    pageSize: 반드시 1보다 크다. 기본 20
+    """
     launch(id: ID!): Launch
     me: User
+  }
+
+  type LaunchConnection {
+    cursor: String!
+    hasMore: Boolean!
+    launches: [Launch]!
   }
 
   type Launch {
@@ -52,3 +61,5 @@ export const typeDefs = gql`
     launches: [Launch]
   }
 `;
+
+module.exports = typeDefs;
