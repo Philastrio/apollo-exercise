@@ -12,7 +12,7 @@ class LaunchAPI extends RESTDataSource {
     */
   }
 
-  launchReducer = launch => {
+  launchReducer(launch) {
     return {
       id: launch.flight_number || 0,
       cursor: `${launch.launch_data_unix}`,
@@ -28,7 +28,7 @@ class LaunchAPI extends RESTDataSource {
         type: launch.rocket.rocket_type
       }
     };
-  };
+  }
 
   async getAllLaunches() {
     const response = await this.get("launches");
