@@ -9,7 +9,10 @@ const typeDefs = gql`
     launch(id: ID!): Launch
     me: User
   }
-
+  """
+  리스트의 마지막 아이템에 대한 cursor까지 포함하는 wrapper이다.
+  여기에 포함된 cursor를 가져온 발사 쿼리에 넘긴다
+  """
   type LaunchConnection {
     cursor: String!
     hasMore: Boolean!
@@ -38,7 +41,7 @@ const typeDefs = gql`
 
   type Mission {
     name: String
-    missionPatch(size: PatchSize): String
+    missionPatch(mission: String, size: PatchSize): String
   }
 
   enum PatchSize {
