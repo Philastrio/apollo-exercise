@@ -27,6 +27,49 @@ module.exports = {
       dataSources.launchAPI.getLaunchById({ launchId: id }),
     me: async (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
   },
+  Mutation: {
+    bookTrips: async (_, { launchIds }, { dataSources }) => {
+      const results = await dataSources.userAPI.bookTrips({ launchIds });
+      const launches = await dataSources.launchAPI.getLaunchesByIds({
+        launchIds
+      });
+
+      return {
+        success: results && results.length === launchIds.length,
+        message:
+          results.length === launchIds.length
+            ? "trips booked successfully"
+            : `the following launches couldn't be booked: ${launchIds.filter(
+                id => !results.includes(id)
+              )}`,
+        launches
+      };
+    },
+    cancelTrip: async (_, { launchId }, { dataSources }) => {
+      const result = await dataSources.userAPI.cancelTrip({ launchId });
+
+      if (!result)
+        return {
+          success: false,
+          message: "failed to cancel trip"
+        };
+
+      const launch = await dataSources.launchAPI.getLaunchById({ launchId });
+      return {
+        success: true,
+        message: "trip cancelled",
+        launches: [launch]
+      };
+    },
+    login: async (_, { email }, { dataSources }) => {
+      const user = await dataSources.userAPI.findOrCreateUser({ email });
+      if (user) return Buffer.from(email).toString("base64");
+    }
+  },
+  Launch: {
+    isBooked: async (launch, _, { dataSources }) =>
+      dataSources.userAPI.isBookedOnLaunch({ launchId: launch.id })
+  },
   Mission: {
     //특별히 정하지 않으면 기본사이즈는 large이다.
     missionPatch: (mission, { size } = { size: "LARGE" }) => {
@@ -36,10 +79,7 @@ module.exports = {
         : mission.missionPatchLarge;
     }
   },
-  Launch: {
-    isBooked: async (launch, _, { dataSources }) =>
-      dataSources.userAPI.isBookedOnLaunch({ launchId: launch.id })
-  },
+
   User: {
     trips: async (_, __, { dataSources }) => {
       // get ids of launches by user

@@ -65,7 +65,7 @@ module.exports.createStore = () => {
       autoIncrement: true
     },
     createdAt: SQL.DATE,
-    updateAt: SQL.DATE,
+    updatedAt: SQL.DATE,
     email: SQL.STRING,
     token: SQL.STRING
   });
@@ -77,7 +77,7 @@ module.exports.createStore = () => {
       autoIncrement: true
     },
     createdAt: SQL.DATE,
-    updateAt: SQL.DATE,
+    updatedAt: SQL.DATE,
     launchId: SQL.INTEGER,
     userId: SQL.INTEGER
   });

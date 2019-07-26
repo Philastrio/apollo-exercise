@@ -38,8 +38,8 @@ class LaunchAPI extends RESTDataSource {
   }
 
   async getLaunchById({ launchId }) {
-    const response = await this.get("launches", { flight_number: launchId });
-    return this.launchReducer(response[0]);
+    const res = await this.get("launches", { flight_number: launchId });
+    return this.launchReducer(res[0]);
     /* launchId를 받으면 response라는 배열 0번째부터 반환하라는 의미
      */
   }

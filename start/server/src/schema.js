@@ -13,6 +13,21 @@ const typeDefs = gql`
   리스트의 마지막 아이템에 대한 cursor까지 포함하는 wrapper이다.
   여기에 포함된 cursor를 가져온 발사 쿼리에 넘긴다
   """
+  type Mutation {
+    #if false, booking trips failed -- check errors
+    bookTrips(launchIds: [ID]!): TripUpdateResponse!
+
+    #if false, cancellation failed -- check errors
+    cancelTrip(launchId: ID!): TripUpdateResponse!
+    login(email: String): String #login token
+  }
+
+  type TripUpdateResponse {
+    success: Boolean!
+    message: String
+    launches: [Launch]
+  }
+
   type LaunchConnection {
     cursor: String!
     hasMore: Boolean!
@@ -47,21 +62,6 @@ const typeDefs = gql`
   enum PatchSize {
     SMALL
     LARGE
-  }
-
-  type Mutation {
-    #if false, booking trips failed -- check errors
-    bookTrips(launchIds: [ID]!): TripUpdateResponse!
-
-    #if false, cancellation failed -- check errors
-    cancelTrip(launchId: ID!): TripUpdateResponse!
-    login(email: String): String #login token
-  }
-
-  type TripUpdateResponse {
-    success: Boolean!
-    message: String
-    launches: [Launch]
   }
 `;
 
