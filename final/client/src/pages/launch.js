@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { Fragment } from "react";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
-import { LAUNCH_TILE_DATA } from './launches';
-import { Loading, Header, LaunchDetail } from '../components';
-import { ActionButton } from '../containers';
+import { LAUNCH_TILE_DATA } from "./launches";
+import { Loading, Header, LaunchDetail } from "../components";
+import { ActionButton } from "../containers";
 
 export const GET_LAUNCH_DETAILS = gql`
   query LaunchDetails($launchId: ID!) {

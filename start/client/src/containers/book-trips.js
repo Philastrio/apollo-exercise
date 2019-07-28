@@ -4,10 +4,10 @@ import gql from "graphql-tag";
 
 import Button from "../components/button";
 import { GET_LAUNCH } from "./cart-item";
-
-const BOOK_TRIPS = gql`
+export { GET_LAUNCH };
+export const BOOK_TRIPS = gql`
   mutation BookTrips($launchIds: [ID]!) {
-    bootTrips(launchIds: $launchIds) {
+    bookTrips(launchIds: $launchIds) {
       success
       message
       launches {
