@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { Fragment } from "react";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 
-import { LaunchTile, Header, Button, Loading } from '../components';
+import { LaunchTile, Header, Button, Loading } from "../components";
 
 export const LAUNCH_TILE_DATA = gql`
   fragment LaunchTile on Launch {
@@ -48,33 +48,32 @@ export default function Launches() {
               data.launches.launches.map(launch => (
                 <LaunchTile key={launch.id} launch={launch} />
               ))}
-            {data.launches &&
-              data.launches.hasMore && (
-                <Button
-                  onClick={() =>
-                    fetchMore({
-                      variables: {
-                        after: data.launches.cursor,
-                      },
-                      updateQuery: (prev, { fetchMoreResult, ...rest }) => {
-                        if (!fetchMoreResult) return prev;
-                        return {
-                          ...fetchMoreResult,
-                          launches: {
-                            ...fetchMoreResult.launches,
-                            launches: [
-                              ...prev.launches.launches,
-                              ...fetchMoreResult.launches.launches,
-                            ],
-                          },
-                        };
-                      },
-                    })
-                  }
-                >
-                  Load More
-                </Button>
-              )}
+            {data.launches && data.launches.hasMore && (
+              <Button
+                onClick={() =>
+                  fetchMore({
+                    variables: {
+                      after: data.launches.cursor
+                    },
+                    updateQuery: (prev, { fetchMoreResult, ...rest }) => {
+                      if (!fetchMoreResult) return prev;
+                      return {
+                        ...fetchMoreResult,
+                        launches: {
+                          ...fetchMoreResult.launches,
+                          launches: [
+                            ...prev.launches.launches,
+                            ...fetchMoreResult.launches.launches
+                          ]
+                        }
+                      };
+                    }
+                  })
+                }
+              >
+                Load More
+              </Button>
+            )}
           </Fragment>
         );
       }}

@@ -66,7 +66,7 @@ class UserAPI extends DataSource {
     });
     return res && res.length ? res[0].get() : false;
     // res가 존재하고 이 길이가 있으면 res 배열변수 첫번째에서 이를 얻고(get=즉 저장하는 것), 그렇지 않으면 false가 된다.
-    // 왜냐하면 userId랑 lauchId는 딱 1개밖에 존재하지 않기 때문이다.
+    // 왜냐하면 userId랑 launchId는 딱 1개밖에 존재하지 않기 때문이다.
   }
 
   async cancelTrip({ launchId }) {
